@@ -108,10 +108,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Address\AddressCommandsApiController.cs" />
     <Compile Include="Controllers\Address\AddressQueriesApiController.cs" />
+    <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AuthorizationService.cs" />
+    <Compile Include="Services\CurrentUserService.cs" />
+    <Compile Include="Services\IAuthorizationService.cs" />
+    <Compile Include="Services\ICurrentUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -122,9 +127,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AddressBook.Application\AddressBook.Application.csproj">
       <Project>{8FB4A0ED-0F29-4CF4-870C-EE607F41DDC6}</Project>
@@ -133,6 +136,10 @@
     <ProjectReference Include="..\AddressBook.Data\AddressBook.Data.csproj">
       <Project>{1a1de6aa-4365-4ed7-96ec-d6804b43d4c7}</Project>
       <Name>AddressBook.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AddressBook.Domain\AddressBook.Domain.csproj">
+      <Project>{0e322789-a0df-49b7-9783-a5ca800195af}</Project>
+      <Name>AddressBook.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

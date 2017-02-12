@@ -4,7 +4,9 @@ using System.Net;
 using System.Net.Http;
 using AddressBook.Application.DTO;
 using AddressBook.Application.Services;
+using AddressBook.Domain;
 using AddressBook.web.api.Controllers.Address;
+using AddressBook.web.api.Services;
 using AddressBook.web.api.tests.Builders;
 using FluentAssertions;
 using Moq;
@@ -16,6 +18,8 @@ namespace AddressBook.web.api.tests.WebApi.Controllers
 	public class AddressQueriesApiControllerTests
     {
 		private Mock<IAddressBookQueries> _mockAddressBookQueries;
+		private Mock<IAuthorizationService> _mockAuthorizationService;
+		private Mock<ICurrentUserService> _mockCurrentUserService;
 	    private AddressQueriesApiController _addressQueriesApiController;
 		private AddressQueriesApiControllerBuilder _addressQueriesApiControllerBuilder;
 
@@ -23,15 +27,51 @@ namespace AddressBook.web.api.tests.WebApi.Controllers
 		public void Setup()
 		{
 			_mockAddressBookQueries = new Mock<IAddressBookQueries>(MockBehavior.Strict);
+			_mockAuthorizationService = new Mock<IAuthorizationService>(MockBehavior.Strict);
+			_mockCurrentUserService = new Mock<ICurrentUserService>(MockBehavior.Strict);
 			_addressQueriesApiControllerBuilder = new AddressQueriesApiControllerBuilder();
+		}
+
+		[Test]
+	    public void GetAllAddresses_ShouldReturn403Forbidden_WhenUserIsNotFound()
+	    {
+			// Arrange
+		    _mockCurrentUserService.Setup(cus => cus.GetCurrentUserId()).Returns((string) null);
+			_addressQueriesApiController = _addressQueriesApiControllerBuilder.WithCurrentUserService(_mockCurrentUserService.Object).Build();
+
+			// Act
+			var response = _addressQueriesApiController.GetAllAddresses();
+
+			// Assert
+			response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+		}
+
+		[Test]
+	    public void GetAllAddresses_ShouldReturn403Forbidden_WhenUserIsNotAuthorized()
+	    {
+			// Arrange
+		    var userId = "Users/007";
+		    _mockCurrentUserService.Setup(cus => cus.GetCurrentUserId()).Returns(userId);
+		    _mockAuthorizationService.Setup(a => a.IsAuthorized(userId, ActivityEnum.View)).Returns(false);
+			_addressQueriesApiController = _addressQueriesApiControllerBuilder.WithCurrentUserService(_mockCurrentUserService.Object).Build();
+
+			// Act
+			var response = _addressQueriesApiController.GetAllAddresses();
+
+			// Assert
+			response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
 		}
 
 		[Test]
 	    public void GetAllAddresses_ShouldReturn500Error_WhenUnhandledExceptionOccurs()
 	    {
 			// Arrange
-			_mockAddressBookQueries.Setup(cus => cus.GetAllAddresses()).Throws<ApplicationException>();
-			_addressQueriesApiController = _addressQueriesApiControllerBuilder.WithAddressBookQueries(_mockAddressBookQueries.Object).Build();
+		    _mockAddressBookQueries.Setup(ab => ab.GetAllAddresses()).Throws<NotImplementedException>();
+			_addressQueriesApiController = _addressQueriesApiControllerBuilder
+												.WithAddressBookQueries(_mockAddressBookQueries.Object)
+												.WithUser("Users/007")
+												.WithAllAuthority()
+												.Build();
 
 			// Act
 			var response = _addressQueriesApiController.GetAllAddresses();
@@ -75,7 +115,10 @@ namespace AddressBook.web.api.tests.WebApi.Controllers
 			};
 
 		    _mockAddressBookQueries.Setup(cus => cus.GetAllAddresses()).Returns(addressBookEntryDtoList);
-			_addressQueriesApiController = _addressQueriesApiControllerBuilder.WithAddressBookQueries(_mockAddressBookQueries.Object).Build();
+			_addressQueriesApiController = _addressQueriesApiControllerBuilder
+											.WithUser("Users/007")
+											.WithAllAuthority()
+											.WithAddressBookQueries(_mockAddressBookQueries.Object).Build();
 
 			// Act
 			var response = _addressQueriesApiController.GetAllAddresses();
@@ -88,7 +131,7 @@ namespace AddressBook.web.api.tests.WebApi.Controllers
 				.Result;
 
 			addressBookEntries.Count.Should().Be(2);
-			addressBookEntries.Should().BeEquivalentTo(addressBookEntryDtoList);
+			addressBookEntries.ShouldBeEquivalentTo(addressBookEntryDtoList);
 		}
     }
 }

@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Http;
 using AddressBook.Data;
 using AddressBook.Data.Queries;
+using AddressBook.web.api.Services;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Newtonsoft.Json;
@@ -24,12 +25,15 @@ namespace AddressBook.web.api
 			builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
 			// defined in the AddressBook.WebApi assembly
+			builder.RegisterType<AuthorizationService>().AsImplementedInterfaces().InstancePerLifetimeScope();
+			builder.RegisterType<CurrentUserService>().AsImplementedInterfaces().InstancePerLifetimeScope();
 
 			// defined in the AddressBook.Application assembly
-			
+			builder.RegisterType<AddressBookQueries>().AsImplementedInterfaces().InstancePerLifetimeScope();
+
 			// defined in the AddressBook.Data infrastructure assembly
 			builder.Register(c => new FakeDbSession()).As<ISession>().SingleInstance();
-	        builder.RegisterType<AddressBookQueries>().AsImplementedInterfaces().InstancePerLifetimeScope();
+	        
 
 			var container = builder.Build();
 
