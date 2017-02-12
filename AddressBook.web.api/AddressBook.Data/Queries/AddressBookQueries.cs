@@ -16,7 +16,7 @@ namespace AddressBook.Data.Queries
 
 		public List<AddressBookEntryDTO> GetAllAddresses()
 		{
-			var addressBookEntries = _session.QueryAddressBookEntries()
+			var addressBookEntries = _session.GetAddressBookEntries()
 										.Select(a => new AddressBookEntryDTO
 													{
 															Id = a.Id,

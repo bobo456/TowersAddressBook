@@ -5,7 +5,14 @@ namespace AddressBook.Data
 {
 	public class FakeDbSession: ISession
 	{
-		public IEnumerable<AddressBookEntry> QueryAddressBookEntries()
+		private List<AddressBookEntry> _addressBookEntries;
+
+		public FakeDbSession()
+		{
+			_addressBookEntries = InitializeAddressBookEntries();
+		}
+
+		public List<AddressBookEntry> InitializeAddressBookEntries()
 		{
 			var addressBookEntry1 = AddressBookEntry.Create("allen", "iverson", "123 All Star Way", null, "Philadelphia",
 				"PA", "888-123-1234", "123-234-3456", "ai@nba.com");
@@ -17,6 +24,16 @@ namespace AddressBook.Data
 				"UT", "800-456-7890", "753-951-1478", "rh@grandTour.com");
 
 			return new List<AddressBookEntry> {addressBookEntry1, addressBookEntry2, addressBookEntry3, addressBookEntry4};
+		}
+
+		public List<AddressBookEntry> AddressBookEntries {
+			get { return _addressBookEntries; }
+			set { _addressBookEntries = value; }
+		}
+
+		public List<AddressBookEntry> GetAddressBookEntries()
+		{
+			return _addressBookEntries;
 		}
 	}
 }

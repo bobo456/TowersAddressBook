@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
+using AddressBook.Application.Services;
 using AddressBook.Data;
 using AddressBook.Data.Queries;
 using AddressBook.web.api.Services;
@@ -30,10 +31,11 @@ namespace AddressBook.web.api
 
 			// defined in the AddressBook.Application assembly
 			builder.RegisterType<AddressBookQueries>().AsImplementedInterfaces().InstancePerLifetimeScope();
+			builder.RegisterType<AddressBookService>().AsImplementedInterfaces().InstancePerLifetimeScope();
 
 			// defined in the AddressBook.Data infrastructure assembly
 			builder.Register(c => new FakeDbSession()).As<ISession>().SingleInstance();
-	        
+			builder.RegisterType<FakeUnitOfWork>().AsImplementedInterfaces().InstancePerDependency();
 
 			var container = builder.Build();
 

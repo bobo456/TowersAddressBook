@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,11 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandParameters\DeleteAddressBookEntryResult.cs" />
+    <Compile Include="CommandParameters\Result.cs" />
     <Compile Include="DTO\AddressBookEntryDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AddressBookService.cs" />
     <Compile Include="Services\IAddressBookQueries.cs" />
+    <Compile Include="Services\IAddressBookRepository.cs" />
+    <Compile Include="Services\IAddressBookService.cs" />
+    <Compile Include="Services\IUnitOfWork.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AddressBook.Domain\AddressBook.Domain.csproj">
+      <Project>{0E322789-A0DF-49B7-9783-A5CA800195AF}</Project>
+      <Name>AddressBook.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

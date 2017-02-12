@@ -4,22 +4,35 @@ namespace AddressBook.Domain
 {
     public class AddressBookEntry
     {
+	    protected AddressBookEntry(string id, string firstName, string lastName, string street1, string street2, string city, string state, string homePhone, string mobilePhone, string email)
+	    {
+		    Id = id;
+		    FirstName = firstName;
+		    LastName = lastName;
+		    Street1 = street1;
+		    Street2 = street2;
+		    City = city;
+		    State = state;
+		    HomePhone = homePhone;
+		    MobilePhone = mobilePhone;
+		    Email = email;
+	    }
+
 	    public static AddressBookEntry Create(string firstName, string lastName, string street1, string street2, string city, 
 											string state, string homePhone, string mobilePhone, string email)
 	    {
-			return new AddressBookEntry
-			{
-				Id = Guid.NewGuid().ToString(),
-				FirstName = firstName,
-				LastName = lastName,
-				Street1 = street1,
-				Street2 = street2,
-				City = city,
-				State = state,
-				HomePhone = homePhone,
-				MobilePhone = mobilePhone,
-				Email = email
-			};
+			return new AddressBookEntry(
+				Guid.NewGuid().ToString(),
+				firstName,
+				lastName,
+				street1,
+				street2,
+				city,
+				state,
+				homePhone,
+				mobilePhone,
+				email
+			);
 	    }
 
 	    public void Update(string firstName, string lastName, string street1, string street2, string city,

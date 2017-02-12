@@ -5,6 +5,6 @@ namespace AddressBook.Data
 {
 	public interface ISession
 	{
-		IEnumerable<AddressBookEntry> QueryAddressBookEntries();
+		List<AddressBookEntry> GetAddressBookEntries();
 	}
 }

@@ -41,9 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FakeDbSession.cs" />
+    <Compile Include="FakeUnitOfWork.cs" />
     <Compile Include="ISession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\AddressBookQueries.cs" />
+    <Compile Include="Repositories\AddressBookRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AddressBook.Application\AddressBook.Application.csproj">
