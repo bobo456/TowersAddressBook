@@ -10,6 +10,7 @@
 	public enum AddressBookCommandResultType
 	{
 		Success,
-		Error
+		Error,
+		Duplicate
 	}
 }

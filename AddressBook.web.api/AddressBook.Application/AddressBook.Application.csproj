@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandParameters\AddAddressBookEntryResult.cs" />
+    <Compile Include="CommandParameters\AddAddressCommandParameters.cs" />
     <Compile Include="CommandParameters\DeleteAddressBookEntryResult.cs" />
     <Compile Include="CommandParameters\Result.cs" />
+    <Compile Include="CommandParameters\UpdateAddressBookEntryResult.cs" />
+    <Compile Include="CommandParameters\UpdateAddressCommandParameters.cs" />
     <Compile Include="DTO\AddressBookEntryDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressBookService.cs" />

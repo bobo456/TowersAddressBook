@@ -1,5 +1,6 @@
 ﻿using System;
 using AddressBook.Application.CommandParameters;
+using AddressBook.Domain;
 
 namespace AddressBook.Application.Services
 {
@@ -10,6 +11,47 @@ namespace AddressBook.Application.Services
 		public AddressBookService(Func<IUnitOfWork> unitOfWorkFactory)
 		{
 			_unitOfWorkFactory = unitOfWorkFactory;
+		}
+
+		public AddAddressBookEntryResult AddAddressBookEntry(AddAddressCommandParameters parameters)
+		{
+			using (var uow = _unitOfWorkFactory.Invoke())
+			{
+				var newEntry = AddressBookEntry.Create(parameters.FirstName, parameters.LastName, parameters.Street1, parameters.Street2, 
+										parameters.City, parameters.State, parameters.HomePhone, parameters.MobilePhone, parameters.Email);
+
+				if(uow.AddressBookEntries.HasDuplicate(parameters))
+					return new AddAddressBookEntryResult { ResultType = AddressBookCommandResultType.Duplicate, ErrorMessage = "Duplicate found."};
+
+				uow.AddressBookEntries.Add(newEntry);
+				uow.Commit();
+
+				return new AddAddressBookEntryResult { ResultType = AddressBookCommandResultType.Success };
+			}
+		}
+
+		public UpdateAddressBookEntryResult UpdateAddressBookEntry(UpdateAddressCommandParameters parameters)
+		{
+			using (var uow = _unitOfWorkFactory.Invoke())
+			{
+				var addressBookEntry = uow.AddressBookEntries.Load(parameters.Id);
+				if (addressBookEntry == null)
+				{
+					return new UpdateAddressBookEntryResult
+					{
+						ResultType = AddressBookCommandResultType.Error,
+						ErrorMessage = "This address book entry was not found."
+					};
+				}
+
+				addressBookEntry.Update(parameters.FirstName, parameters.LastName, parameters.Street1, parameters.Street2, parameters.City, 
+										parameters.State, parameters.HomePhone, parameters.MobilePhone, parameters.Email);
+
+				uow.AddressBookEntries.Update(addressBookEntry);
+				uow.Commit();
+
+				return new UpdateAddressBookEntryResult { ResultType = AddressBookCommandResultType.Success };
+			}
 		}
 
 		public DeleteAddressBookEntryResult DeleteAddressBookEntry(string addressBookEntryId)

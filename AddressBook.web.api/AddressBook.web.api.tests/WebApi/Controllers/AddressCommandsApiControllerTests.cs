@@ -92,6 +92,26 @@ namespace AddressBook.web.api.tests.WebApi.Controllers
 			response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
 		}
 
+		[Test]
+		public void DeleteAddressBookEntry_ShouldReturn500_WhenDeleteResultIsError()
+		{
+			// Arrange
+			const string addressBookEntryId = "AddressBookEntries/123";
+			var deleteAddressBookEntryResult = new DeleteAddressBookEntryResult {ResultType = AddressBookCommandResultType.Error};
+			_mockAddressBookService.Setup(ab => ab.DeleteAddressBookEntry(addressBookEntryId)).Returns(deleteAddressBookEntryResult);
+			_addressCommandsApiController = _addressCommandsApiControllerBuilder
+												.WithAddressBookService(_mockAddressBookService.Object)
+												.WithUser("Users/007")
+												.WithAllAuthority()
+												.Build();
+
+			// Act
+			var response = _addressCommandsApiController.DeleteAddressBookEntry(addressBookEntryId);
+
+			// Assert
+			response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+		}
+
 
 		[Test]
 		public void DeleteAddressBookEntry_ShouldReturn200Ok_WhenDeleteResultIsSuccess()

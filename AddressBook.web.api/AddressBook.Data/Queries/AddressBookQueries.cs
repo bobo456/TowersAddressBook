@@ -29,7 +29,9 @@ namespace AddressBook.Data.Queries
 															HomePhone = a.HomePhone,
 															MobilePhone = a.MobilePhone,
 															Email = a.Email
-													});
+													})
+										.OrderBy(a => a.LastName)
+										.ThenBy(a => a.FirstName);
 
 			return addressBookEntries.ToList();
 		}

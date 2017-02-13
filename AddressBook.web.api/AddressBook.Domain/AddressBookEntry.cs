@@ -18,9 +18,20 @@ namespace AddressBook.Domain
 		    Email = email;
 	    }
 
-	    public static AddressBookEntry Create(string firstName, string lastName, string street1, string street2, string city, 
+	    public string Id { get; private set; }
+		public string FirstName { get; private set; }
+		public string LastName { get; private set; }
+	    public string Street1 { get; private set; }
+	    public string Street2 { get; private set; }
+	    public string City { get; private set; }
+	    public string State { get; private set; }
+	    public string HomePhone { get; private set; }
+	    public string MobilePhone { get; private set; }
+	    public string Email { get; private set; }
+
+		public static AddressBookEntry Create(string firstName, string lastName, string street1, string street2, string city,
 											string state, string homePhone, string mobilePhone, string email)
-	    {
+		{
 			return new AddressBookEntry(
 				Guid.NewGuid().ToString(),
 				firstName,
@@ -33,10 +44,10 @@ namespace AddressBook.Domain
 				mobilePhone,
 				email
 			);
-	    }
+		}
 
-	    public void Update(string firstName, string lastName, string street1, string street2, string city,
-											string state, string homePhone, string mobilePhone, string email)
+		public void Update(string firstName, string lastName, string street1, string street2, string city,
+		    string state, string homePhone, string mobilePhone, string email)
 	    {
 		    FirstName = firstName;
 		    LastName = lastName;
@@ -48,16 +59,5 @@ namespace AddressBook.Domain
 		    MobilePhone = mobilePhone;
 		    Email = email;
 	    }
-
-	    public string Id { get; private set; }
-	    public string FirstName { get; private set; }
-		public string LastName { get; private set; }
-		public string Street1 { get; private set; }
-		public string Street2 { get; private set; }
-		public string City { get; private set; }
-		public string State { get; private set; }
-		public string HomePhone { get; private set; }
-		public string MobilePhone { get; private set; }
-		public string Email { get; private set; }
-	}
+    }
 }
