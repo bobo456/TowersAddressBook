@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 const AddressListRow = ({addressBookEntry}) => {
     return (
         <tr>
-            <td><Link to={'/address/' + addressBookEntry.id}> {addressBookEntry.FirstName + ' ' + addressBookEntry.LastName}</Link></td>
+            <td><Link to={'/address/' + addressBookEntry.Id}> {addressBookEntry.FirstName + ' ' + addressBookEntry.LastName}</Link></td>
             <td>{addressBookEntry.Street1 + addressBookEntry.Street2}</td>
             <td>{addressBookEntry.City}</td>
             <td>{addressBookEntry.State}</td>

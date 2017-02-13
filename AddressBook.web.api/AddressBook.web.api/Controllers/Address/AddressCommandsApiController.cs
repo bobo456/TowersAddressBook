@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using AddressBook.Application.CommandParameters;
 using AddressBook.Application.Services;
 using AddressBook.Domain;
@@ -23,6 +24,7 @@ namespace AddressBook.web.api.Controllers.Address
 		}
 
 		[AcceptVerbs("POST")]
+		[EnableCors("*", "*", "*")]
 		public HttpResponseMessage AddAddressBookEntry(AddAddressCommandParameters parameters)
 		{
 			try
@@ -61,6 +63,7 @@ namespace AddressBook.web.api.Controllers.Address
 		}
 
 		[AcceptVerbs("PUT")]
+		[EnableCors("*", "*", "*")]
 		public HttpResponseMessage UpdateAddressBookEntry(UpdateAddressCommandParameters parameters)
 		{
 			try
@@ -95,6 +98,7 @@ namespace AddressBook.web.api.Controllers.Address
 		}
 
 		[AcceptVerbs("POST")]
+		[EnableCors("*", "*", "*")]
 		public HttpResponseMessage DeleteAddressBookEntry(string addressBookEntryId)
 		{
 			try

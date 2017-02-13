@@ -7,7 +7,7 @@ class Home extends React.Component{
         <div className="jumbotron">
             <h1>Address Book</h1>
             <p>For all your address needs!</p>
-            <Link to="/" className="btn btn-primary btn-lg">Proceed</Link>
+            <Link to="/addresses" className="btn btn-primary btn-lg">Proceed</Link>
         </div>
         );
     }

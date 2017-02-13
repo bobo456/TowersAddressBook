@@ -20,7 +20,7 @@ class AddressesPage extends React.Component{
     }
 }
 
-AddressesPage.PropTypes = {
+AddressesPage.propTypes = {
     addressBookEntries: PropTypes.array.isRequired
 };
 
