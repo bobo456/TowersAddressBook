@@ -15,7 +15,7 @@ export class ManageAddress extends React.Component{
         };
 
         this.updateAddressState = this.updateAddressState.bind(this);
-        this.updateAddress = this.updateAddress.bind(this);
+        this.saveAddress = this.saveAddress.bind(this);
     }
     
     componentWillReceiveProps(nextProps){
@@ -35,15 +35,25 @@ export class ManageAddress extends React.Component{
         this.context.router.push('/addresses');
     }
 
-    updateAddress(event){
+    saveAddress(event){
         // TODO: Check form validity
         event.preventDefault();
 
-        this.props.actions.updateAddress(this.state.addressBookEntry)
+        if(!this.state.addressBookEntry.Id)
+        {
+            this.props.actions.addAddress(this.state.addressBookEntry)
             .then(() => this.saveSuccess())
             .catch((error) => {
                 toastr.error(error);
             });
+        }
+        else{
+            this.props.actions.updateAddress(this.state.addressBookEntry)
+            .then(() => this.saveSuccess())
+            .catch((error) => {
+                toastr.error(error);
+            });
+        }
     }
 
     render(){
@@ -51,7 +61,7 @@ export class ManageAddress extends React.Component{
             <AddressForm 
                 addressBookEntry={this.state.addressBookEntry} 
                 onChange={this.updateAddressState}
-                onSave={this.updateAddress}  
+                onSave={this.saveAddress}  
             />
         );
     }
@@ -67,7 +77,7 @@ ManageAddress.contextTypes = {
 };
 
 function mapStateToProps(state, ownProps){
-    let addressBookEntry = {Id: "", FirstName: "", LastName: "", Street1: "", Street2: "", City: "", State: "", HomePhone: "", MobilePhone:"", Email:""};
+    let addressBookEntry = {Id: "", FirstName: "", LastName: "", Street1: "", Street2: "", City: "", State: "",ZipCode: "", HomePhone: "", MobilePhone:"", Email:""};
 
     const addressBookEntryId = ownProps.params.id;
     if(addressBookEntryId)

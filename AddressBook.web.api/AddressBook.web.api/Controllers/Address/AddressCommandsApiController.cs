@@ -2,17 +2,15 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using AddressBook.Application.CommandParameters;
 using AddressBook.Application.Services;
 using AddressBook.Domain;
 using AddressBook.web.api.Services;
 using NLog;
-using NLog.Fluent;
 
 namespace AddressBook.web.api.Controllers.Address
 {
-    public class AddressCommandsApiController : BaseApiController
+	public class AddressCommandsApiController : BaseApiController
 	{
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 		private readonly IAddressBookService _addressBookService;
@@ -24,7 +22,6 @@ namespace AddressBook.web.api.Controllers.Address
 		}
 
 		[AcceptVerbs("POST")]
-		[EnableCors("*", "*", "*")]
 		public HttpResponseMessage AddAddressBookEntry(AddAddressCommandParameters parameters)
 		{
 			try
@@ -53,7 +50,7 @@ namespace AddressBook.web.api.Controllers.Address
 				}
 
 				Logger.Trace("AddAddressBookEntry creating response");
-				return Request.CreateResponse(HttpStatusCode.OK);
+				return Request.CreateResponse(HttpStatusCode.OK, result.NewAddressBookEntry);
 			}
 			catch (Exception e)
 			{
@@ -63,7 +60,6 @@ namespace AddressBook.web.api.Controllers.Address
 		}
 
 		[AcceptVerbs("PUT")]
-		[EnableCors("*", "*", "*")]
 		public HttpResponseMessage UpdateAddressBookEntry(UpdateAddressCommandParameters parameters)
 		{
 			try
@@ -97,15 +93,14 @@ namespace AddressBook.web.api.Controllers.Address
 			}
 		}
 
-		[AcceptVerbs("POST")]
-		[EnableCors("*", "*", "*")]
-		public HttpResponseMessage DeleteAddressBookEntry(string addressBookEntryId)
+		[AcceptVerbs("DELETE")]
+		public HttpResponseMessage DeleteAddressBookEntry(string id)
 		{
 			try
 			{
-				Logger.Trace("DeleteAddressBookEntry started through Web API for: {0}", addressBookEntryId);
+				Logger.Trace("DeleteAddressBookEntry started through Web API for: {0}", id);
 
-				if (addressBookEntryId == null)
+				if (id == null)
 				{
 					Logger.Info("DeleteAddressBookEntry called with invalid parameters");
 					return Request.CreateResponse(HttpStatusCode.BadRequest, "addressBookEntryId cannot be null");
@@ -115,14 +110,14 @@ namespace AddressBook.web.api.Controllers.Address
 				if (!canDeleteAddresses)
 					return Request.CreateResponse(HttpStatusCode.Forbidden);
 
-				var result =_addressBookService.DeleteAddressBookEntry(addressBookEntryId);
+				var result =_addressBookService.DeleteAddressBookEntry(id);
 				if (result.ResultType == AddressBookCommandResultType.Error)
 				{
 					Logger.Error("DeleteAddressBookEntry failed with error: {0}", result.ErrorMessage);
 					return Request.CreateResponse(HttpStatusCode.InternalServerError, "Unexpected server error");
 				}
 
-				Logger.Trace("DeleteAddressBookEntry creating response for: {0}", addressBookEntryId);
+				Logger.Trace("DeleteAddressBookEntry creating response for: {0}", id);
 				return Request.CreateResponse(HttpStatusCode.OK);
 			}
 			catch (Exception e)

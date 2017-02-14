@@ -51,6 +51,12 @@ const AddressForm = ({addressBookEntry, onChange, onSave}) => {
                 onChange={onChange}
             />
             <TextField 
+                name="ZipCode"
+                label="ZipCode"
+                value={addressBookEntry.ZipCode}
+                onChange={onChange}
+            />
+            <TextField 
                 name="HomePhone"
                 label="Home Phone"
                 value={addressBookEntry.HomePhone}

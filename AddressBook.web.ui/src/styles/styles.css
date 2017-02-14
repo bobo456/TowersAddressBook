@@ -14,3 +14,7 @@ a.active {
 nav {
   padding-top: 20px;
 }
+
+.table td{
+  white-space:nowrap;
+}

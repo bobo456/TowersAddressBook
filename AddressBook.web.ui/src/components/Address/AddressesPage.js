@@ -2,11 +2,25 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as addressActions from '../../actions/addressActions';
+import {browserHistory} from 'react-router';
+import toastr from 'toastr';
 import AddressList from './AddressList';
+
 
 class AddressesPage extends React.Component{
     constructor(props, context){
         super(props, context);
+
+        this.redirectToAdd = () => browserHistory.push('/address');
+        this.deleteAddress = this.deleteAddress.bind(this);
+    }
+
+    deleteAddress(addressBookEntryId){
+        this.props.actions.deleteAddress(addressBookEntryId)
+        .then(() => toastr.success('Address book entry deleted successfully.'))
+        .catch((error) => {
+            toastr.error(error);
+        });
     }
 
     render(){
@@ -14,14 +28,16 @@ class AddressesPage extends React.Component{
 
         return(
             <div>
-                <AddressList addressBookEntries={addressBookEntries} />
+                <AddressList addressBookEntries={addressBookEntries} deleteAddressBookEntry={this.deleteAddress} />
+                <input type="submit" value="Add Address" className="btn btn-primary" onClick={this.redirectToAdd} />
             </div>
         );
     }
 }
 
 AddressesPage.propTypes = {
-    addressBookEntries: PropTypes.array.isRequired
+    addressBookEntries: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps){

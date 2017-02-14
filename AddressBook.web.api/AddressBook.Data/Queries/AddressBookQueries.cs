@@ -26,6 +26,7 @@ namespace AddressBook.Data.Queries
 															Street2 = a.Street2,
 															City = a.City,
 															State = a.State,
+															ZipCode = a.ZipCode,
 															HomePhone = a.HomePhone,
 															MobilePhone = a.MobilePhone,
 															Email = a.Email

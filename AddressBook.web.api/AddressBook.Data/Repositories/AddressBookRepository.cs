@@ -23,12 +23,12 @@ namespace AddressBook.Data.Repositories
 		{
 			return _session.GetAddressBookEntries().Any(e =>
 				string.Equals(e.FirstName, parameters.FirstName, StringComparison.CurrentCultureIgnoreCase)
-				&& string.Equals(e.FirstName, parameters.FirstName, StringComparison.CurrentCultureIgnoreCase)
 				&& string.Equals(e.LastName, parameters.LastName, StringComparison.CurrentCultureIgnoreCase)
 				&& string.Equals(e.Street1, parameters.Street1, StringComparison.CurrentCultureIgnoreCase)
 				&& string.Equals(e.Street2, parameters.Street2, StringComparison.CurrentCultureIgnoreCase)
 				&& string.Equals(e.City, parameters.City, StringComparison.CurrentCultureIgnoreCase)
 				&& string.Equals(e.State, parameters.State, StringComparison.CurrentCultureIgnoreCase)
+				&& e.ZipCode == parameters.ZipCode
 				&& string.Equals(e.HomePhone, parameters.HomePhone, StringComparison.CurrentCultureIgnoreCase)
 				&& string.Equals(e.MobilePhone, parameters.MobilePhone, StringComparison.CurrentCultureIgnoreCase)
 				&& string.Equals(e.Email, parameters.Email, StringComparison.CurrentCultureIgnoreCase));

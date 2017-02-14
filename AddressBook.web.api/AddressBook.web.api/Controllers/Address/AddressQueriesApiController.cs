@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http.Cors;
+using System.Web.Http;
 using AddressBook.Application.Services;
 using AddressBook.Domain;
 using AddressBook.web.api.Services;
@@ -9,7 +9,7 @@ using NLog;
 
 namespace AddressBook.web.api.Controllers.Address
 {
-    public class AddressQueriesApiController : BaseApiController
+	public class AddressQueriesApiController : BaseApiController
     {
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 	    private readonly IAddressBookQueries _addressQueries;
@@ -20,7 +20,7 @@ namespace AddressBook.web.api.Controllers.Address
 		    _addressQueries = addressQueries;
 	    }
 
-		[EnableCors("*", "*", "*")]
+		[AcceptVerbs("GET")]
 		public HttpResponseMessage GetAllAddresses()
 		{
 			try

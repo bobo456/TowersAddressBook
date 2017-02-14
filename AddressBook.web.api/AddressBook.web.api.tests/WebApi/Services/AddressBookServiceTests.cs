@@ -47,7 +47,7 @@ namespace AddressBook.web.api.tests.WebApi.Services
 		{
 			// Arrange
 			const string addressBookEntryId = "AddressBookEntries/123";
-			var addressBookEntry = AddressBookEntry.Create(addressBookEntryId, "ln", "st1", "st2", "c", "st", "hp", "mp", "em");
+			var addressBookEntry = AddressBookEntry.Create(addressBookEntryId, "ln", "st1", "st2", "c", "st", "84000", "hp", "mp", "em");
 			_unitOfWork.Setup(u => u.AddressBookEntries.Load(addressBookEntryId)).Returns(addressBookEntry);
 			_addressBookService = new AddressBookServiceBuilder().WithUnitOfWorkFactory(_unitOfWorkFactory).Build();
 

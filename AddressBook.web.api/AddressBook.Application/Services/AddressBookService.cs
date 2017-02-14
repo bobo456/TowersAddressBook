@@ -1,5 +1,6 @@
 ﻿using System;
 using AddressBook.Application.CommandParameters;
+using AddressBook.Application.DTO;
 using AddressBook.Domain;
 
 namespace AddressBook.Application.Services
@@ -18,7 +19,7 @@ namespace AddressBook.Application.Services
 			using (var uow = _unitOfWorkFactory.Invoke())
 			{
 				var newEntry = AddressBookEntry.Create(parameters.FirstName, parameters.LastName, parameters.Street1, parameters.Street2, 
-										parameters.City, parameters.State, parameters.HomePhone, parameters.MobilePhone, parameters.Email);
+										parameters.City, parameters.State, parameters.ZipCode, parameters.HomePhone, parameters.MobilePhone, parameters.Email);
 
 				if(uow.AddressBookEntries.HasDuplicate(parameters))
 					return new AddAddressBookEntryResult { ResultType = AddressBookCommandResultType.Duplicate, ErrorMessage = "Duplicate found."};
@@ -26,7 +27,22 @@ namespace AddressBook.Application.Services
 				uow.AddressBookEntries.Add(newEntry);
 				uow.Commit();
 
-				return new AddAddressBookEntryResult { ResultType = AddressBookCommandResultType.Success };
+				var newEntryDto = new AddressBookEntryDTO
+									{
+										Id = newEntry.Id,
+										FirstName = newEntry.FirstName,
+										LastName = newEntry.LastName,
+										Street1 = newEntry.Street1,
+										Street2 = newEntry.Street2,
+										City = newEntry.City,
+										State = newEntry.State,
+										ZipCode = newEntry.ZipCode,
+										HomePhone = newEntry.HomePhone,
+										MobilePhone = newEntry.MobilePhone,
+										Email = newEntry.Email
+									};
+
+				return new AddAddressBookEntryResult { ResultType = AddressBookCommandResultType.Success, NewAddressBookEntry = newEntryDto };
 			}
 		}
 
@@ -45,7 +61,7 @@ namespace AddressBook.Application.Services
 				}
 
 				addressBookEntry.Update(parameters.FirstName, parameters.LastName, parameters.Street1, parameters.Street2, parameters.City, 
-										parameters.State, parameters.HomePhone, parameters.MobilePhone, parameters.Email);
+										parameters.State, parameters.ZipCode, parameters.HomePhone, parameters.MobilePhone, parameters.Email);
 
 				uow.AddressBookEntries.Update(addressBookEntry);
 				uow.Commit();

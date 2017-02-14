@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.ExceptionHandling;
 
 namespace AddressBook.web.api
@@ -10,7 +11,7 @@ namespace AddressBook.web.api
         {
 			// Web API configuration and services
 
-			config.EnableCors();
+			config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
 			// Web API routes
 			config.MapHttpAttributeRoutes();

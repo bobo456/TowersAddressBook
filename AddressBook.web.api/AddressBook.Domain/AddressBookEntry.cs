@@ -4,7 +4,7 @@ namespace AddressBook.Domain
 {
     public class AddressBookEntry
     {
-	    protected AddressBookEntry(string id, string firstName, string lastName, string street1, string street2, string city, string state, string homePhone, string mobilePhone, string email)
+	    protected AddressBookEntry(string id, string firstName, string lastName, string street1, string street2, string city, string state, string zipCode, string homePhone, string mobilePhone, string email)
 	    {
 		    Id = id;
 		    FirstName = firstName;
@@ -13,6 +13,7 @@ namespace AddressBook.Domain
 		    Street2 = street2;
 		    City = city;
 		    State = state;
+		    ZipCode = zipCode;
 		    HomePhone = homePhone;
 		    MobilePhone = mobilePhone;
 		    Email = email;
@@ -25,12 +26,13 @@ namespace AddressBook.Domain
 	    public string Street2 { get; private set; }
 	    public string City { get; private set; }
 	    public string State { get; private set; }
+	    public string ZipCode { get; private set; }
 	    public string HomePhone { get; private set; }
 	    public string MobilePhone { get; private set; }
 	    public string Email { get; private set; }
 
 		public static AddressBookEntry Create(string firstName, string lastName, string street1, string street2, string city,
-											string state, string homePhone, string mobilePhone, string email)
+											string state, string zipcode, string homePhone, string mobilePhone, string email)
 		{
 			return new AddressBookEntry(
 				Guid.NewGuid().ToString(),
@@ -40,6 +42,7 @@ namespace AddressBook.Domain
 				street2,
 				city,
 				state,
+				zipcode,
 				homePhone,
 				mobilePhone,
 				email
@@ -47,7 +50,7 @@ namespace AddressBook.Domain
 		}
 
 		public void Update(string firstName, string lastName, string street1, string street2, string city,
-		    string state, string homePhone, string mobilePhone, string email)
+		    string state, string zipCode, string homePhone, string mobilePhone, string email)
 	    {
 		    FirstName = firstName;
 		    LastName = lastName;
@@ -55,6 +58,7 @@ namespace AddressBook.Domain
 		    Street2 = street2;
 		    City = city;
 		    State = state;
+		    ZipCode = zipCode;
 		    HomePhone = homePhone;
 		    MobilePhone = mobilePhone;
 		    Email = email;
