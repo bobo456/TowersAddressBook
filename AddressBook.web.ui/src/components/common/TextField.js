@@ -1,7 +1,10 @@
 import React, {PropTypes} from 'react';
 
-const TextField = ({name, label, value, onChange, placeHolder}) => {
+const TextField = ({name, label, value, onChange, placeHolder, error}) => {
     let wrapperClass = "form-group";
+    if (error && error.length > 0) {
+        wrapperClass += " " + 'has-error';
+    }
 
     return (
         <div className={wrapperClass}>
@@ -12,7 +15,8 @@ const TextField = ({name, label, value, onChange, placeHolder}) => {
                     value={value}
                     onChange={onChange}
                     placeholder={placeHolder}
-                     />
+                />
+                {error && <div className="alert alert-danger">{error}</div>}
             </div>
         </div>
     );
@@ -23,7 +27,8 @@ TextField.propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    placeHolder: PropTypes.string
+    placeHolder: PropTypes.string,
+    error: PropTypes.string
 };
 
 export default TextField;

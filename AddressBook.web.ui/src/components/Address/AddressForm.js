@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import TextField from '../common/TextField';
 import {Link} from 'react-router';
 
-const AddressForm = ({addressBookEntry, onChange, onSave}) => {
+const AddressForm = ({addressBookEntry, onChange, onSave, isSaving, errors}) => {
     for(let propertyName in addressBookEntry)
     {
         if(addressBookEntry.hasOwnProperty(propertyName))
@@ -19,12 +19,14 @@ const AddressForm = ({addressBookEntry, onChange, onSave}) => {
                 label="First Name"
                 value={addressBookEntry.FirstName}
                 onChange={onChange}
+                error={errors.FirstName}
             />
             <TextField 
                 name="LastName"
                 label="Last Name"
                 value={addressBookEntry.LastName}
                 onChange={onChange}
+                error={errors.LastName}
             />
             <TextField 
                 name="Street1"
@@ -61,24 +63,28 @@ const AddressForm = ({addressBookEntry, onChange, onSave}) => {
                 label="Home Phone"
                 value={addressBookEntry.HomePhone}
                 onChange={onChange}
+                errors={errors.HomePhone}
             />
             <TextField 
                 name="MobilePhone"
                 label="Cell Phone"
                 value={addressBookEntry.MobilePhone}
                 onChange={onChange}
+                errors={errors.MobilePhone}
             />
             <TextField 
                 name="Email"
                 label="Email Address"
                 value={addressBookEntry.Email}
                 onChange={onChange}
+                errors={errors.Email}
             />
             <input
                 type="submit"
-                value="Save"
+                value={isSaving ? "Saving..." : "Save"}
                 className="btn btn-primary"
                 onClick={onSave}
+                disabled={isSaving}                
             />
             <Link to="/addresses" className="btn btn-default">Cancel</Link>
         </form>
@@ -88,7 +94,9 @@ const AddressForm = ({addressBookEntry, onChange, onSave}) => {
 AddressForm.propTypes ={
     addressBookEntry: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired
+    onSave: PropTypes.func.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 export default AddressForm;

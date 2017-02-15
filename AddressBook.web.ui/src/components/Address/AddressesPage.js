@@ -7,12 +7,15 @@ import toastr from 'toastr';
 import AddressList from './AddressList';
 
 
-class AddressesPage extends React.Component{
+export class AddressesPage extends React.Component{
     constructor(props, context){
         super(props, context);
 
-        this.redirectToAdd = () => browserHistory.push('/address');
         this.deleteAddress = this.deleteAddress.bind(this);
+    }
+
+    redirectToAdd(){
+        browserHistory.push('/address');
     }
 
     deleteAddress(addressBookEntryId){

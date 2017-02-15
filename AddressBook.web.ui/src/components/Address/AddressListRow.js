@@ -17,7 +17,7 @@ const AddressListRow = ({addressBookEntry, deleteAddressBookEntry}) => {
                 <td>{addressBookEntry.MobilePhone}</td>
                 <td>{addressBookEntry.Email}</td>
                 <td>
-                    <a href="#" className="btn btn-danger btn-sm" onClick={handleClick}>
+                    <a id="deleteAddressBtn" href="#" className="btn btn-danger btn-sm" onClick={handleClick}>
                         <span className="glyphicon glyphicon-remove"></span> Remove 
                     </a>
                 </td>

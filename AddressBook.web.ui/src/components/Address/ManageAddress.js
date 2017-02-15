@@ -11,7 +11,9 @@ export class ManageAddress extends React.Component{
         super(props, context);
 
         this.state = {
-            addressBookEntry: Object.assign({}, this.props.addressBookEntry)
+            addressBookEntry: Object.assign({}, this.props.addressBookEntry),
+            errors: {},
+            isSaving: false
         };
 
         this.updateAddressState = this.updateAddressState.bind(this);
@@ -23,6 +25,34 @@ export class ManageAddress extends React.Component{
             this.setState({addressBookEntry: Object.assign({}, nextProps.addressBookEntry)});
     }
 
+    isFormValid(){
+        let isValid = true;
+        let entry = this.state.addressBookEntry;
+        let errors = {};
+
+        // We are requiring first name, last name and at least one contact method
+        if(!entry.FirstName || entry.FirstName.length < 2){
+            errors.FirstName = 'First name must be at least two characters.';
+            isValid = false;    
+        }
+            
+        if(!entry.LastName || entry.LastName.length < 2){
+            errors.LastName = 'Last name must be at least two characters.';
+            isValid = false;    
+        }
+
+        if(!entry.HomePhone && !entry.MobilePhone && !entry.Email)
+        {
+            errors.HomePhone = 'One contact method must be supplied (phone/email).';
+            errors.MobilePhone = 'One contact method must be supplied (phone/email).';
+            errors.Email = 'One contact method must be supplied (phone/email).';
+            isValid = false;    
+        }
+
+        this.setState({errors: errors});
+        return isValid;
+    }
+
     updateAddressState(event){
         const fieldName = event.target.name;
         let addressBookEntry = this.state.addressBookEntry;
@@ -31,19 +61,24 @@ export class ManageAddress extends React.Component{
     }
 
     saveSuccess(){
+        this.setState({isSaving:false});
         toastr.success('Address book entry saved successfully.');
         this.context.router.push('/addresses');
     }
 
     saveAddress(event){
-        // TODO: Check form validity
         event.preventDefault();
+        
+        if(!this.isFormValid())
+            return;
 
+        this.setState({isSaving:true});
         if(!this.state.addressBookEntry.Id)
         {
             this.props.actions.addAddress(this.state.addressBookEntry)
             .then(() => this.saveSuccess())
             .catch((error) => {
+                this.setState({isSaving:false});
                 toastr.error(error);
             });
         }
@@ -51,6 +86,7 @@ export class ManageAddress extends React.Component{
             this.props.actions.updateAddress(this.state.addressBookEntry)
             .then(() => this.saveSuccess())
             .catch((error) => {
+                this.setState({isSaving:false});
                 toastr.error(error);
             });
         }
@@ -62,6 +98,8 @@ export class ManageAddress extends React.Component{
                 addressBookEntry={this.state.addressBookEntry} 
                 onChange={this.updateAddressState}
                 onSave={this.saveAddress}  
+                errors={this.state.errors}
+                isSaving={this.state.isSaving}
             />
         );
     }

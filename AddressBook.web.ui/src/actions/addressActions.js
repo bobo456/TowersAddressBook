@@ -41,13 +41,13 @@ export function loadAddresses(){
     return function(dispatch){
         dispatch(beginFetch());
         return fetch(_queriesBaseUrl + 'getalladdresses', getFetchOptions('GET'))
-            .then(response => {return response.json();})
+            .then(response => handleErrors(response, true))
             .then(addressBookEntries=>{
                 dispatch(loadAddressesSuccess(addressBookEntries));
             })
             .catch((error) => {
-                throw(error);
-            });
+                throw("Retrieval of addresses failed.");
+            }); 
     };
 }
 
@@ -60,7 +60,7 @@ export function addAddress(addressBookEntry){
                 dispatch(addAddressSuccess(response));
             })
             .catch((error) => {
-                throw(error);
+                throw("Adding the address failed. " + error.message);
             });
     };
 }
@@ -74,7 +74,7 @@ export function updateAddress(addressBookEntry){
                 dispatch(updateAddressSuccess(addressBookEntry));
             })
             .catch((error) => {
-                throw(error);
+                throw("Updating the address failed. " + error.message);
             });
     };
 }
@@ -88,7 +88,7 @@ export function deleteAddress(addressBookEntryId){
                 dispatch(deleteAddressSuccess(addressBookEntryId));
             })
             .catch((error) => {
-                throw(error);
+                throw("Deleting the address failed. " + error.message);
             });
     };
 }
