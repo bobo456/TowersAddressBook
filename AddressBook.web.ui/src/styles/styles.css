@@ -7,14 +7,45 @@
   margin: 0 auto;
 }
 
+a{
+  font-weight: bold;
+}
+
 a.active {
   color: orange;
+}
+
+a.btn.btn-default.myColor{
+  margin-left: 1em;
+  color: cornflowerblue;
+  border-color: cornflowerblue;
+}
+
+form{
+  color:cornflowerblue;
+}
+
+div.jumbotron{
+  color: cornflowerblue;
 }
 
 nav {
   padding-top: 20px;
 }
 
+.my-table-bordered td{
+  border: 1px solid lightblue;
+  color: blue;
+}
+.table thead{
+  background-color: cornflowerblue;
+  color:white;
+}
+
 .table td{
+  white-space:nowrap;
+}
+
+.table th{
   white-space:nowrap;
 }

@@ -11,10 +11,9 @@ function getFetchOptions(method, data = null){
 }
 
 function handleErrors(response, shouldHaveData) {
-    if (!response.ok) {
+    if (!response.ok) 
         throw Error(response.statusText);
-    }
-
+    
     if(shouldHaveData)
         return response.json();
 
@@ -41,12 +40,14 @@ export function loadAddresses(){
     return function(dispatch){
         dispatch(beginFetch());
         return fetch(_queriesBaseUrl + 'getalladdresses', getFetchOptions('GET'))
-            .then(response => handleErrors(response, true))
+            .then(response => {
+                return handleErrors(response, true);
+            })
             .then(addressBookEntries=>{
                 dispatch(loadAddressesSuccess(addressBookEntries));
             })
             .catch((error) => {
-                throw("Retrieval of addresses failed.");
+                throw error();
             }); 
     };
 }

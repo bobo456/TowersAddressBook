@@ -41,12 +41,37 @@ export class ManageAddress extends React.Component{
             isValid = false;    
         }
 
+        const emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$';
+        if(entry.Email && entry.Email.match(emailRegex) == null)
+        {
+            errors.Email = 'Invalid email address';
+            isValid = false;
+        }
+
         if(!entry.HomePhone && !entry.MobilePhone && !entry.Email)
         {
             errors.HomePhone = 'One contact method must be supplied (phone/email).';
             errors.MobilePhone = 'One contact method must be supplied (phone/email).';
             errors.Email = 'One contact method must be supplied (phone/email).';
             isValid = false;    
+        }
+        
+        if(entry.HomePhone && entry.HomePhone.length < 10)
+        {
+            errors.HomePhone = 'Phone number must be at least 10 digits';
+            isValid = false;
+        }
+        
+        if(entry.MobilePhone && entry.MobilePhone.length < 10)
+        {
+            errors.MobilePhone = 'Phone number must be at least 10 digits';
+            isValid = false;
+        }
+
+        if(entry.ZipCode && entry.ZipCode.length < 5)
+        {
+            errors.ZipCode = 'Zip code must be at least 5 digits';
+            isValid = false;
         }
 
         this.setState({errors: errors});

@@ -7,13 +7,14 @@ import routes from './routes';
 import {Provider} from 'react-redux';
 import configureStore from './store/configureStore';
 import {loadAddresses} from './actions/addressActions'; 
+import toastr from 'toastr';
 import './styles/styles.css'; //Webpack can import CSS files too!
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
 
+
 const store = configureStore();
-//TODO: Add error handling here for if loadAddresses returns an error
-store.dispatch(loadAddresses());
+toastr.options={"positionClass": "toast-top-center"};  
 
 render(
   <Provider store={store}>

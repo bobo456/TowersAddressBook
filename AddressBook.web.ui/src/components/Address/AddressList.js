@@ -3,7 +3,7 @@ import AddressListRow from './AddressListRow';
 
 const AddressList = ({addressBookEntries, deleteAddressBookEntry}) => {
     return(
-        <table className="table table-striped table-bordered table-hover">
+        <table className="table table-striped my-table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Name</th>

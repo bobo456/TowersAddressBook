@@ -57,27 +57,32 @@ const AddressForm = ({addressBookEntry, onChange, onSave, isSaving, errors}) => 
                 label="ZipCode"
                 value={addressBookEntry.ZipCode}
                 onChange={onChange}
+                placeHolder="84101"
+                error={errors.ZipCode}
             />
             <TextField 
                 name="HomePhone"
                 label="Home Phone"
                 value={addressBookEntry.HomePhone}
                 onChange={onChange}
-                errors={errors.HomePhone}
+                placeHolder="801-123-1234"
+                error={errors.HomePhone}
             />
             <TextField 
                 name="MobilePhone"
                 label="Cell Phone"
                 value={addressBookEntry.MobilePhone}
                 onChange={onChange}
-                errors={errors.MobilePhone}
+                placeHolder="801-123-1234"
+                error={errors.MobilePhone}
             />
             <TextField 
                 name="Email"
                 label="Email Address"
                 value={addressBookEntry.Email}
                 onChange={onChange}
-                errors={errors.Email}
+                placeHolder="MyNameIs@FindMe.com"
+                error={errors.Email}
             />
             <input
                 type="submit"
@@ -86,7 +91,7 @@ const AddressForm = ({addressBookEntry, onChange, onSave, isSaving, errors}) => 
                 onClick={onSave}
                 disabled={isSaving}                
             />
-            <Link to="/addresses" className="btn btn-default">Cancel</Link>
+            <Link to="/addresses" className="btn btn-default myColor">Cancel</Link>
         </form>
     );
 };

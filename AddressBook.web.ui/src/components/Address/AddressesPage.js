@@ -11,7 +11,21 @@ export class AddressesPage extends React.Component{
     constructor(props, context){
         super(props, context);
 
+        if(!props.addressBookEntries || props.addressBookEntries.length == 0)
+            this.loadAddresses();
+
         this.deleteAddress = this.deleteAddress.bind(this);
+        this.loadAddresses = this.loadAddresses.bind(this);
+    }
+
+    loadAddresses(){
+        this.props.actions.loadAddresses()
+        .then(() => {
+            // do nothing, you can see the address list loaded
+        })
+        .catch(error => {
+            toastr.error("Error retrieving address book list.");
+        });
     }
 
     redirectToAdd(){
