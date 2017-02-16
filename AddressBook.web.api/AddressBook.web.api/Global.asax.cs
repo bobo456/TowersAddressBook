@@ -48,7 +48,7 @@ namespace AddressBook.web.api
 			var ex = Server.GetLastError();
 			var clientAddress = HttpContext.Current.Request.UserHostAddress;
 			var requestUrl = HttpContext.Current.Request.RawUrl;
-			var logMsg = $"An unhandled exception occurred. Request from IP Address: {clientAddress} to URL: {requestUrl}";
+			var logMsg = string.Format("An unhandled exception occurred. Request from IP Address: {0} to URL: {1}", clientAddress, requestUrl);
 			Logger.Error(ex, logMsg);
 			Server.ClearError();
 
