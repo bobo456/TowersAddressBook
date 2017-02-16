@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.ExceptionHandling;
+using FluentValidation.WebApi;
 
 namespace AddressBook.web.api
 {
@@ -28,6 +29,9 @@ namespace AddressBook.web.api
 
 			// Register custom WebApi exception handler
 			config.Services.Replace(typeof(IExceptionHandler), new WebApiUnhandledExceptionHandler());
+
+			// Enable FluentValidation
+			FluentValidationModelValidatorProvider.Configure(config);
 		}
     }
 

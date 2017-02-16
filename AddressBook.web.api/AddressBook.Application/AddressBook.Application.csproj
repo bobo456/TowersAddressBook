@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -54,12 +58,17 @@
     <Compile Include="Services\IAddressBookRepository.cs" />
     <Compile Include="Services\IAddressBookService.cs" />
     <Compile Include="Services\IUnitOfWork.cs" />
+    <Compile Include="Validators\AddAddressCommandParametersValidator.cs" />
+    <Compile Include="Validators\UpdateAddressCommandParametersValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AddressBook.Domain\AddressBook.Domain.csproj">
       <Project>{0E322789-A0DF-49B7-9783-A5CA800195AF}</Project>
       <Name>AddressBook.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

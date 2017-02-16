@@ -5,21 +5,6 @@ import fetch from 'isomorphic-fetch';
 const _queriesBaseUrl = 'http://localhost:8804/api/v1/addressqueriesapi/';
 const _commandsBaseUrl = 'http://localhost:8804/api/v1/addresscommandsapi/';
 
-function getFetchOptions(method, data = null){
-    const myHeaders =  {'Accept': 'application/json', 'Content-Type': 'application/json'};
-    return { method: method, headers: myHeaders, mode: 'cors', cache: 'default', body: data};
-}
-
-function handleErrors(response, shouldHaveData) {
-    if (!response.ok) 
-        throw Error(response.statusText);
-    
-    if(shouldHaveData)
-        return response.json();
-
-    return response;
-}
-
 export function loadAddressesSuccess(addressBookEntries){
     return{type: types.LOAD_ADDRESSES_SUCCESS, addressBookEntries};
 }
@@ -34,6 +19,22 @@ export function deleteAddressSuccess(addressBookEntryId){
 
 export function updateAddressSuccess(addressBookEntry){
     return{type: types.UPDATE_ADDRESS_SUCCESS, addressBookEntry};
+}
+
+
+function getFetchOptions(method, data = null){
+    const myHeaders =  {'Accept': 'application/json', 'Content-Type': 'application/json'};
+    return { method: method, headers: myHeaders, mode: 'cors', cache: 'default', body: data};
+}
+
+function handleErrors(response, shouldHaveData) {
+    if (!response.ok) 
+        throw Error(response.statusText);
+    
+    if(shouldHaveData)
+        return response.json();
+
+    return response;
 }
 
 export function loadAddresses(){
@@ -70,7 +71,9 @@ export function updateAddress(addressBookEntry){
     return function(dispatch){
         dispatch(beginFetch());
         return fetch(_commandsBaseUrl + 'updateAddressBookEntry', getFetchOptions('PUT', JSON.stringify(addressBookEntry)))
-            .then(handleErrors)
+            .then(response => {
+                return handleErrors(response, false);
+            })
             .then(response => {
                 dispatch(updateAddressSuccess(addressBookEntry));
             })
@@ -84,7 +87,9 @@ export function deleteAddress(addressBookEntryId){
     return function(dispatch){
         dispatch(beginFetch());
         return fetch(_commandsBaseUrl + 'deleteAddressBookEntry?id=' + addressBookEntryId, getFetchOptions('DELETE'))
-            .then(handleErrors)
+            .then(response => {
+                return handleErrors(response, false);
+            })
             .then(response => {
                 dispatch(deleteAddressSuccess(addressBookEntryId));
             })

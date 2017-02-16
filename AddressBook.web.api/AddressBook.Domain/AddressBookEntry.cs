@@ -2,7 +2,7 @@
 
 namespace AddressBook.Domain
 {
-    public class AddressBookEntry
+	public class AddressBookEntry
     {
 	    protected AddressBookEntry(string id, string firstName, string lastName, string street1, string street2, string city, string state, string zipCode, string homePhone, string mobilePhone, string email)
 	    {

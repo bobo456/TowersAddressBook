@@ -14,11 +14,5 @@ namespace AddressBook.Application.CommandParameters
 		public string HomePhone { get; set; }
 		public string MobilePhone { get; set; }
 		public string Email { get; set; }
-
-		public static bool IsValid(UpdateAddressCommandParameters parameters)
-		{
-			// Id should not be empty, everything else can be
-			return !string.IsNullOrEmpty(parameters?.Id);
-		}
 	}
 }

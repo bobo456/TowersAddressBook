@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -28,10 +30,19 @@ namespace AddressBook.web.api.Controllers.Address
 			{
 				Logger.Trace("AddAddressBookEntry started through Web API");
 
-				if (parameters == null || !AddAddressCommandParameters.IsValid(parameters))
+				if (parameters == null)
 				{
-					Logger.Info("AddAddressBookEntry called with invalid parameters");
-					return Request.CreateResponse(HttpStatusCode.BadRequest, "Parameters were invalid.");
+					const string nullParametersErrorMsg = "AddAddressBookEntry called with null parameters";
+					Logger.Info(nullParametersErrorMsg);
+					return Request.CreateResponse(HttpStatusCode.BadRequest, new AddAddressBookEntryResult {Error = nullParametersErrorMsg });
+				}
+
+				if (!ModelState.IsValid)
+				{
+					var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
+
+					Logger.Info("AddAddressBookEntry called with invalid parameters: {0}", string.Join(", ", errors));
+					return Request.CreateResponse(HttpStatusCode.BadRequest, new AddAddressBookEntryResult {ValidationErrors = errors});
 				}
 
 				var canAddAddresses = Authorization.IsAuthorized(UserId, ActivityEnum.Add);
@@ -42,19 +53,19 @@ namespace AddressBook.web.api.Controllers.Address
 				switch(result.ResultType)
 				{ 
 					case AddressBookCommandResultType.Duplicate:
-						Logger.Trace(result.ErrorMessage);
+						Logger.Trace(result.Error);
 						return Request.CreateResponse(HttpStatusCode.BadRequest, "Duplicate address book entry found.");
 					case AddressBookCommandResultType.Error:
-						Logger.Error("AddAddressBookEntry failed with error: {0}", result.ErrorMessage);
+						Logger.Error("AddAddressBookEntry failed with error: {0}", result.Error);
 						return Request.CreateResponse(HttpStatusCode.InternalServerError, "Unexpected server error");
 				}
 
 				Logger.Trace("AddAddressBookEntry creating response");
 				return Request.CreateResponse(HttpStatusCode.OK, result.NewAddressBookEntry);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				Logger.ErrorException("AddAddressBookEntry failed", e);
+				Logger.Error(ex, "AddAddressBookEntry failed");
 				return Request.CreateResponse(HttpStatusCode.InternalServerError, "Unexpected server error");
 			}
 		}
@@ -66,10 +77,19 @@ namespace AddressBook.web.api.Controllers.Address
 			{
 				Logger.Trace("UpdateAddressBookEntry started through Web API");
 
-				if (parameters == null || !UpdateAddressCommandParameters.IsValid(parameters))
+				if (parameters == null)
 				{
-					Logger.Info("UpdateAddressBookEntry called with invalid parameters");
-					return Request.CreateResponse(HttpStatusCode.BadRequest, "Parameters were invalid.");
+					const string nullParametersErrorMsg = "UpdateAddressBookEntry called with null parameters";
+					Logger.Info(nullParametersErrorMsg);
+					return Request.CreateResponse(HttpStatusCode.BadRequest, new AddAddressBookEntryResult { Error = nullParametersErrorMsg });
+				}
+
+				if (!ModelState.IsValid)
+				{
+					var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
+
+					Logger.Info("UpdateAddressBookEntry called with invalid parameters: {0}", string.Join(", ", errors));
+					return Request.CreateResponse(HttpStatusCode.BadRequest, new AddAddressBookEntryResult { ValidationErrors = errors });
 				}
 
 				var canUpdate = Authorization.IsAuthorized(UserId, ActivityEnum.Update);
@@ -79,16 +99,16 @@ namespace AddressBook.web.api.Controllers.Address
 				var result =_addressBookService.UpdateAddressBookEntry(parameters);
 				if (result.ResultType == AddressBookCommandResultType.Error)
 				{
-					Logger.Error("UpdateAddressBookEntry failed with error: {0}", result.ErrorMessage);
+					Logger.Error("UpdateAddressBookEntry failed with error: {0}", result.Error);
 					return Request.CreateResponse(HttpStatusCode.InternalServerError, "Unexpected server error");
 				}
 
 				Logger.Trace("UpdateAddressBookEntry creating response");
 				return Request.CreateResponse(HttpStatusCode.OK);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				Logger.ErrorException("UpdateAddressBookEntry failed", e);
+				Logger.Error(ex, "UpdateAddressBookEntry failed");
 				return Request.CreateResponse(HttpStatusCode.InternalServerError, "Unexpected server error");
 			}
 		}
@@ -113,16 +133,16 @@ namespace AddressBook.web.api.Controllers.Address
 				var result =_addressBookService.DeleteAddressBookEntry(id);
 				if (result.ResultType == AddressBookCommandResultType.Error)
 				{
-					Logger.Error("DeleteAddressBookEntry failed with error: {0}", result.ErrorMessage);
+					Logger.Error("DeleteAddressBookEntry failed with error: {0}", result.Error);
 					return Request.CreateResponse(HttpStatusCode.InternalServerError, "Unexpected server error");
 				}
 
 				Logger.Trace("DeleteAddressBookEntry creating response for: {0}", id);
 				return Request.CreateResponse(HttpStatusCode.OK);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				Logger.ErrorException("DeleteAddressBookEntry failed", e);
+				Logger.Error(ex, "DeleteAddressBookEntry failed");
 				return Request.CreateResponse(HttpStatusCode.InternalServerError, "Unexpected server error");
 			}
 		}

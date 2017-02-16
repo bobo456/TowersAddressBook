@@ -22,7 +22,7 @@ namespace AddressBook.Application.Services
 										parameters.City, parameters.State, parameters.ZipCode, parameters.HomePhone, parameters.MobilePhone, parameters.Email);
 
 				if(uow.AddressBookEntries.HasDuplicate(parameters))
-					return new AddAddressBookEntryResult { ResultType = AddressBookCommandResultType.Duplicate, ErrorMessage = "Duplicate found."};
+					return new AddAddressBookEntryResult { ResultType = AddressBookCommandResultType.Duplicate, Error = "Duplicate found."};
 
 				uow.AddressBookEntries.Add(newEntry);
 				uow.Commit();
@@ -56,7 +56,7 @@ namespace AddressBook.Application.Services
 					return new UpdateAddressBookEntryResult
 					{
 						ResultType = AddressBookCommandResultType.Error,
-						ErrorMessage = "This address book entry was not found."
+						Error = "This address book entry was not found."
 					};
 				}
 
@@ -80,7 +80,7 @@ namespace AddressBook.Application.Services
 					return new DeleteAddressBookEntryResult
 					{
 						ResultType = AddressBookCommandResultType.Error,
-						ErrorMessage = "This address book entry has already been deleted."
+						Error = "This address book entry has already been deleted."
 					};
 				}
 

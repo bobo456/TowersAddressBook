@@ -37,7 +37,7 @@ namespace AddressBook.web.api.tests.WebApi.Services
 
 			// Assert
 			result.ResultType.Should().Be(AddressBookCommandResultType.Error);
-			result.ErrorMessage.Should().Be("This address book entry has already been deleted.");
+			result.Error.Should().Be("This address book entry has already been deleted.");
 			_unitOfWork.Verify(m => m.Commit(), Times.Never);
 			_unitOfWork.Verify(m => m.Dispose(), Times.Once);
 		}

@@ -29,7 +29,7 @@ export class ManageAddress extends React.Component{
         let isValid = true;
         let entry = this.state.addressBookEntry;
         let errors = {};
-
+        
         // We are requiring first name, last name and at least one contact method
         if(!entry.FirstName || entry.FirstName.length < 2){
             errors.FirstName = 'First name must be at least two characters.';

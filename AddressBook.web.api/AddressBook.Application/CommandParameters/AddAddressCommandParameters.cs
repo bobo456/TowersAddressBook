@@ -1,6 +1,10 @@
 ﻿
+using AddressBook.Application.Validators;
+using FluentValidation.Attributes;
+
 namespace AddressBook.Application.CommandParameters
 {
+	[Validator(typeof(AddAddressCommandParametersValidator))]
 	public class AddAddressCommandParameters
 	{
 		public string Id { get; set; }
@@ -14,16 +18,5 @@ namespace AddressBook.Application.CommandParameters
 		public string HomePhone { get; set; }
 		public string MobilePhone { get; set; }
 		public string Email { get; set; }
-		
-		public static bool IsValid(AddAddressCommandParameters parameters)
-		{
-			// We should not have an Id
-			// Required:  First & Last name and either home, mobile or email
-			return parameters != null
-				&& string.IsNullOrEmpty(parameters.Id) 
-				&& !string.IsNullOrEmpty(parameters.FirstName) 
-				&& !string.IsNullOrEmpty(parameters.LastName) 
-				&& (!string.IsNullOrEmpty(parameters.HomePhone) || !string.IsNullOrEmpty(parameters.MobilePhone) || !string.IsNullOrEmpty(parameters.Email));
-		}
 	}
 }
