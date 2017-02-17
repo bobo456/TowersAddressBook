@@ -2,10 +2,6 @@ import expect from 'expect';
 import * as addressActions from './addressActions';
 import * as types from './actionTypes';
 
-import thunk from 'redux-thunk';
-import nock from 'nock';
-import configureMockStore from 'redux-mock-store';
-
 describe('Address Actions', () => {
   describe('addAddressSuccess', () => {
     it('should create an ADD_ADDRESS_SUCCESS action', () => {

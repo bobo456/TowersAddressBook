@@ -11,7 +11,7 @@ export class AddressesPage extends React.Component{
     constructor(props, context){
         super(props, context);
 
-        if(!props.addressBookEntries || props.addressBookEntries.length == 0)
+        if(!props.addressBookEntries || props.addressBookEntries.length === 0)
             this.loadAddresses();
 
         this.deleteAddress = this.deleteAddress.bind(this);

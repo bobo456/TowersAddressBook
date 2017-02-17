@@ -15,8 +15,8 @@ describe('Manage Address', ()=>{
         const saveButton = wrapper.find("input[type='submit']").last();
         expect(saveButton.prop('type')).toBe('submit');
         saveButton.simulate('click');
-        expect(wrapper.state().errors.FirstName).toBe('First name must be at least two characters.');
-        expect(wrapper.state().errors.LastName).toBe('Last name must be at least two characters.');
+        expect(wrapper.state().errors.FirstName).toBe('First name must between 2 and 35 characters.');
+        expect(wrapper.state().errors.LastName).toBe('Last name must between 2 and 35 characters.');
         expect(wrapper.state().errors.HomePhone).toBe('One contact method must be supplied (phone/email).');
     });
     
@@ -30,8 +30,8 @@ describe('Manage Address', ()=>{
         const saveButton = wrapper.find("input[type='submit']").last();
         expect(saveButton.prop('type')).toBe('submit');
         saveButton.simulate('click');
-        expect(wrapper.state().errors.Email).toBe('Invalid email address');
-        expect(wrapper.state().errors.HomePhone).toBe('Phone number must be at least 10 digits');
-        expect(wrapper.state().errors.ZipCode).toBe('Zip code must be at least 5 digits');
+        expect(wrapper.state().errors.Email).toBe('Incorrect email format.  ex: abc@123.com');
+        expect(wrapper.state().errors.HomePhone).toBe('Incorrect phone format. ex: 801-123-4567');
+        expect(wrapper.state().errors.ZipCode).toBe('Incorrect Zip Code format. ex: 84101 or 84101-8404');
     });
 });

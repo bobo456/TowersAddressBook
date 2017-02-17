@@ -21,7 +21,7 @@ export class ManageAddress extends React.Component{
     }
     
     componentWillReceiveProps(nextProps){
-        if(this.props.addressBookEntry.Id != nextProps.addressBookEntry.Id)
+        if(this.props.addressBookEntry.Id !== nextProps.addressBookEntry.Id)
             this.setState({addressBookEntry: Object.assign({}, nextProps.addressBookEntry)});
     }
 
@@ -31,20 +31,40 @@ export class ManageAddress extends React.Component{
         let errors = {};
         
         // We are requiring first name, last name and at least one contact method
-        if(!entry.FirstName || entry.FirstName.length < 2){
-            errors.FirstName = 'First name must be at least two characters.';
+        if(!entry.FirstName || entry.FirstName.length < 2 || entry.FirstName.length > 35){
+            errors.FirstName = 'First name must between 2 and 35 characters.';
             isValid = false;    
         }
             
-        if(!entry.LastName || entry.LastName.length < 2){
-            errors.LastName = 'Last name must be at least two characters.';
+        if(!entry.LastName || entry.LastName.length < 2 || entry.LastName.length > 35){
+            errors.LastName = 'Last name must between 2 and 35 characters.';
+            isValid = false;    
+        }
+
+        if(entry.Street1.length > 40){
+            errors.Street1 = 'Street address must be less than 40 characters.';
+            isValid = false;    
+        }
+
+        if(entry.Street2.length > 40){
+            errors.Street2 = 'Street 2 address must be less than 40 characters.';
+            isValid = false;    
+        }
+
+        if(entry.City.length > 35){
+            errors.City = 'City must be less than 35 characters.';
+            isValid = false;    
+        }
+
+        if(entry.State.length > 25){
+            errors.State = 'State must be less than 25 characters.';
             isValid = false;    
         }
 
         const emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$';
-        if(entry.Email && entry.Email.match(emailRegex) == null)
+        if(entry.Email && entry.Email.match(emailRegex) === null)
         {
-            errors.Email = 'Invalid email address';
+            errors.Email = 'Incorrect email format.  ex: abc@123.com';
             isValid = false;
         }
 
@@ -56,21 +76,24 @@ export class ManageAddress extends React.Component{
             isValid = false;    
         }
         
-        if(entry.HomePhone && entry.HomePhone.length < 10)
+        const phoneRegex = '^[0-9]{3}-[0-9]{3}-[0-9]{4}$';
+        const phoneFormatError = 'Incorrect phone format. ex: 801-123-4567';
+        if(entry.HomePhone && entry.HomePhone.match(phoneRegex) === null)
         {
-            errors.HomePhone = 'Phone number must be at least 10 digits';
+            errors.HomePhone = phoneFormatError;
             isValid = false;
         }
         
-        if(entry.MobilePhone && entry.MobilePhone.length < 10)
+        if(entry.MobilePhone && entry.MobilePhone.match(phoneRegex) === null)
         {
-            errors.MobilePhone = 'Phone number must be at least 10 digits';
+            errors.MobilePhone = phoneFormatError;
             isValid = false;
         }
-
-        if(entry.ZipCode && entry.ZipCode.length < 5)
+                              
+        const zipCodeRegex = '^[0-9]{5}(?:-[0-9]{4})?$';
+        if(entry.ZipCode && entry.ZipCode.match(zipCodeRegex) === null)
         {
-            errors.ZipCode = 'Zip code must be at least 5 digits';
+            errors.ZipCode = 'Incorrect Zip Code format. ex: 84101 or 84101-8404';
             isValid = false;
         }
 
@@ -82,6 +105,7 @@ export class ManageAddress extends React.Component{
         const fieldName = event.target.name;
         let addressBookEntry = this.state.addressBookEntry;
         addressBookEntry[fieldName] = event.target.value;
+        
         return this.setState({addressBookEntry: addressBookEntry});
     }
 
@@ -140,12 +164,12 @@ ManageAddress.contextTypes = {
 };
 
 function mapStateToProps(state, ownProps){
-    let addressBookEntry = {Id: "", FirstName: "", LastName: "", Street1: "", Street2: "", City: "", State: "",ZipCode: "", HomePhone: "", MobilePhone:"", Email:""};
+    let addressBookEntry = {Id: "", FirstName: "", LastName: "", Street1: "", Street2: "", City: "", State: "", ZipCode: "", HomePhone: "", MobilePhone: "", Email: ""};
 
     const addressBookEntryId = ownProps.params.id;
     if(addressBookEntryId)
     {
-        let foundEntry = state.addressBookEntries.find(a => a.Id == addressBookEntryId);
+        let foundEntry = state.addressBookEntries.find(a => a.Id === addressBookEntryId);
         addressBookEntry = foundEntry ? foundEntry : addressBookEntry;
     }
 

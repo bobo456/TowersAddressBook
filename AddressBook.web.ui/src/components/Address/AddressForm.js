@@ -33,24 +33,28 @@ const AddressForm = ({addressBookEntry, onChange, onSave, isSaving, errors}) => 
                 label="Street"
                 value={addressBookEntry.Street1}
                 onChange={onChange}
+                error={errors.Street1}
             />
             <TextField 
                 name="Street2"
                 label="Street 2"
                 value={addressBookEntry.Street2}
                 onChange={onChange}
+                error={errors.Street2}
             />
             <TextField 
                 name="City"
                 label="City"
                 value={addressBookEntry.City}
                 onChange={onChange}
+                error={errors.City}
             />
             <TextField 
                 name="State"
                 label="State"
                 value={addressBookEntry.State}
                 onChange={onChange}
+                error={errors.State}
             />
             <TextField 
                 name="ZipCode"

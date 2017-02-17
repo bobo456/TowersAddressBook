@@ -8,7 +8,7 @@ export default function addressReducer(state = initialState.addressBookEntries, 
 
         case types.DELETE_ADDRESS_SUCCESS:
              return [
-                ...state.filter(s => s.Id != action.addressBookEntryId)
+                ...state.filter(s => s.Id !== action.addressBookEntryId)
             ];
         
         case types.ADD_ADDRESS_SUCCESS:
@@ -19,7 +19,7 @@ export default function addressReducer(state = initialState.addressBookEntries, 
         
         case types.UPDATE_ADDRESS_SUCCESS:
             return [
-                ...state.filter(s => s.Id != action.addressBookEntry.Id),
+                ...state.filter(s => s.Id !== action.addressBookEntry.Id),
                 Object.assign({}, action.addressBookEntry) 
             ];
 

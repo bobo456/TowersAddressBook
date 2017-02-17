@@ -42,7 +42,7 @@ nav {
   color:white;
 }
 
-.table td{
+.table td:not(:first-child){
   white-space:nowrap;
 }
 
