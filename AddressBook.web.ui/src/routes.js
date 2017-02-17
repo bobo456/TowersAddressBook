@@ -11,5 +11,6 @@ export default(
         <Route path="addresses" component={AddressesPage} />
         <Route path="address" component={ManageAddress} />
         <Route path="address/:id" component={ManageAddress} />
+        <Route path="*" component={Home}/>
     </Route>
 );
