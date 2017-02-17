@@ -42,6 +42,13 @@ nav {
   color:white;
 }
 
+.table th:first-child{
+  min-width: 12em;
+}
+
+.table th:nth-child(2){
+  min-width: 12em;
+}
 .table td:not(:first-child){
   white-space:nowrap;
 }
