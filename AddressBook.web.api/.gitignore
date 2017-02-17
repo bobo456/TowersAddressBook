@@ -32,9 +32,7 @@ bld/
 /packages
 /.vscode
 /Release
-/Externals/DevRavenDB/bin/Debug/Raven.Studio.Html5.zip
-/TPIC.WebApi/Web.config
-/TPIC.sln.DotSettings.user
+/AddressBook.web.api/.vs/config/applicationhost.config
 Debug
 
 _ReSharper*/
