@@ -32,6 +32,7 @@ bld/
 /packages
 /.vscode
 /Release
+/.vs
 /AddressBook.web.api/.vs/config/applicationhost.config
 Debug
 
