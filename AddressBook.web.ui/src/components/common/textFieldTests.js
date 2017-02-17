@@ -12,7 +12,7 @@ describe('TextField', () => {
         name: 'FirstName',
         label: 'First Name',
         value: 'Eric Snow',
-        onChange: () => { return "test me"},
+        onChange: () => { return "test me";},
         placeHolder: 'First name goes here'
     };
     
